@@ -19,6 +19,15 @@ const generateHash = password => new Promise((resolve, reject) => {
 });
 
 module.exports = {
+  show: async (req, res, next) => {
+    try {
+      const user = await User.findById(req.params.id);
+      res.send(user);
+      next();
+    } catch (err) {
+      return next(new errors.ResourceNotFoundError(`There is no customer with the id of ${req.params.id}`));
+    }
+  },
   // Register User
   create: (req, res, next) => {
     const { email, password } = req.body || {};
