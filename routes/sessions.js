@@ -4,26 +4,20 @@ const auth = require('../auth');
 const config = require('../config');
 
 module.exports = {
-  create: async (req, res, next) => {
+  create: (req, res, next) => {
     const { email, password } = req.body;
+    auth.authenticate(email, password)
+      .then((user) => {
+        // Create JWT
+        const token = jwt.sign(user.toJSON(), config.JWT_SECRET, {
+          expiresIn: '24hours',
+        });
 
-    try {
-      // Authenticate User
-      const user = await auth.authenticate(email, password);
-
-      // Create JWT
-      const token = jwt.sign(user.toJSON(), config.JWT_SECRET, {
-        expiresIn: '15m'
-      });
-
-      const { iat, exp } = jwt.decode(token);
-      // Respond with token
-      res.send({ iat, exp, token });
-
-      next();
-    } catch (err) {
-      // User unauthorized
-      return next(new errors.UnauthorizedError(err));
-    }
+        const { iat, exp } = jwt.decode(token);
+        // Respond with token
+        res.send({ iat, exp, token });
+        return next();
+      })
+      .catch(err => next(new errors.UnauthorizedError(err)));
   },
 };
