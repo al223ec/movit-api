@@ -6,21 +6,13 @@
 
 ```bash
 # Install dependencies
-npm install
+yarn install
 
 # Serve on localhost:3000
-npm start
+yarn start
 ```
 
 ## API Endpoints
-
-#### Customer Routes
-
-- GET /customers
-- GET /customers/:id
-- POST (Protected) /customers
-- PUT (Protected) /customers/:id
-- DELETE (Protected) /customers/:id
 
 #### User Routes
 
@@ -28,8 +20,10 @@ npm start
 - POST /auth
 
 ## App Info
+### Local mongo start
+mongod --dbpath /Users/antonledstrom/development/data
 
-### Author
+### Forked from:
 
 Brad Traversy
 [Traversy Media](http://www.traversymedia.com)
