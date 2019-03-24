@@ -4,12 +4,14 @@ const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
+    lowercase: true,
+    unique: true,
   },
   password: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const User = mongoose.model('User', UserSchema);
